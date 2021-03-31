@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: afd-icon
+  namespace: poketwo
+spec:
+  clusterIP: None
+  selector:
+    app: afd-icon
+  ports:
+    - port: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: afd-icon
+  namespace: poketwo
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: afd-icon
+  template:
+    metadata:
+      labels:
+        app: afd-icon
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/oliver-ni/afd-icon:latest
+          ports:
+            - containerPort: 8000
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "800m"
+            requests:
+              memory: "500Mi"
+              cpu: "250m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      imagePullSecrets:
+        - name: ghcr-auth
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: afd-icon-ingress
+  namespace: poketwo
+spec:
+  rules:
+    - host: afdicon.poketwo.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: afd-icon
+              servicePort: 8000
