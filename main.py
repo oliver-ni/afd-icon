@@ -1,13 +1,13 @@
-from starlette.templating import Jinja2Templates
-from io import BytesIO
 import asyncio
 import functools
-import httpx
+from io import BytesIO
+from urllib.parse import urlencode
 
+import httpx
 from PIL import Image, ImageDraw
 from starlette.applications import Starlette
 from starlette.responses import PlainTextResponse, StreamingResponse
-
+from starlette.templating import Jinja2Templates
 
 app = Starlette()
 templates = Jinja2Templates(directory=".")
@@ -48,6 +48,8 @@ async def image(request):
         url = form["url"]
     except KeyError:
         return PlainTextResponse("Must provide URL", 400)
+
+    url = "https://proud-truth-a9de.oliver-ni.workers.dev/proxy?" + urlencode({"url": url})
 
     async with httpx.AsyncClient() as client:
         r = await client.get(url)
