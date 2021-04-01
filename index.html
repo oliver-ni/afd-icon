@@ -3,20 +3,58 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>monox</title>
+
+    <title>Ping Icon Maker</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
 </head>
 
 <body>
+    <div class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="box" style="width: 100%; max-width: 500px; margin: auto;">
+                    <form action="/image" method="POST">
+                        <div class="field">
+                            <label class="label">Image URL</label>
+                            <div class="control">
+                                <input class="input" type="text" name="url"
+                                    placeholder="https://i.imgur.com/XnFzbyZ.png">
+                            </div>
+                        </div>
 
-    <div id="main">
-        <form action="/image" method="POST">
-            Enter Image URL <input type="text" name="url">
-            <button type="submit">Go!</button>
-        </form>
+                        <div class="field">
+                            <label class="label">Number</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="idx">
+                                        <option value="1" selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link">Go!</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
 </body>
 
 </html>

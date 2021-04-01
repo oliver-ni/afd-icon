@@ -11,7 +11,7 @@ from starlette.templating import Jinja2Templates
 
 app = Starlette()
 templates = Jinja2Templates(directory=".")
-overlay = Image.open("overlay.png")
+overlays = [None] + [Image.open(f"overlays/overlay{x}.png") for x in range(1, 10)]
 
 
 def run_in_executor(_func):
@@ -25,7 +25,7 @@ def run_in_executor(_func):
 
 
 @run_in_executor
-def make_image(im):
+def make_image(im, overlay):
     im = im.convert("RGBA")
     w, h = im.size
     if w != h:
@@ -46,11 +46,13 @@ async def image(request):
 
     try:
         url = form["url"]
-    except KeyError:
-        return PlainTextResponse("Must provide URL", 400)
+        idx = int(form.get("idx", "1"))
+        if not 1 <= idx <= 9:
+            raise ValueError("Invalid idx")
+    except (KeyError, ValueError):
+        return PlainTextResponse("Bad Request", 400)
 
     url = "https://proud-truth-a9de.oliver-ni.workers.dev/proxy?" + urlencode({"url": url})
-
     async with httpx.AsyncClient() as client:
         r = await client.get(url)
 
@@ -62,7 +64,7 @@ async def image(request):
         im = Image.open(fp)
 
         try:
-            im = await make_image(im)
+            im = await make_image(im, overlays[idx])
         except TypeError as e:
             return PlainTextResponse(str(e), 400)
 
