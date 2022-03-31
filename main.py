@@ -77,7 +77,12 @@ async def image(request):
     fp = BytesIO()
     im.save(fp, format="PNG")
     fp.seek(0)
-    return StreamingResponse(fp, media_type="image/png")
+
+    return StreamingResponse(
+        fp,
+        media_type="image/png",
+        headers={"Content-Disposition": 'attachment; filename="afdicon.png"'},
+    )
 
 
 @app.route("/", methods=["GET"])
