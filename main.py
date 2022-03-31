@@ -31,9 +31,15 @@ def make_image(im, overlay):
     if w != h:
         raise TypeError("Image must be square")
 
+    im = im.resize((w * 4, h * 4), resample=Image.NEAREST)
+    w, h = im.size
+
     d = ImageDraw.Draw(im)
-    d.ellipse((205 / 400 * w, 205 / 400 * h, 405 / 400 * w, 405 / 400 * h), (255, 255, 255, 0))
-    d.rectangle((305 / 400 * w, 305 / 400 * h, 405 / 400 * w, 405 / 400 * h), (255, 255, 255, 0))
+    d.ellipse((524 / 1024 * w, 524 / 1024 * h, 1036 / 1024 * w, 1036 / 1024 * h), (255, 255, 255, 0))
+    d.rectangle((780 / 1024 * w, 780 / 1024 * h, 1036 / 1024 * w, 1036 / 1024 * h), (255, 255, 255, 0))
+
+    im = im.resize((w // 4, h // 4))
+    w, h = im.size
 
     resized_overlay = overlay.resize((w, h))
     im.alpha_composite(resized_overlay)
