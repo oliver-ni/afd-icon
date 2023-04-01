@@ -58,7 +58,7 @@ async def image(request):
     except (KeyError, ValueError):
         return PlainTextResponse("Bad Request", 400)
 
-    url = "https://proud-truth-a9de.oliver-ni.workers.dev/proxy?" + urlencode({"url": url})
+    url = "https://little-cherry-0857.oliver-ni.workers.dev/proxy?" + urlencode({"url": url})
     async with httpx.AsyncClient() as client:
         r = await client.get(url)
 
