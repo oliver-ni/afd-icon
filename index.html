@@ -14,13 +14,28 @@
     <div class="hero is-fullheight">
         <div class="hero-body">
             <div class="container">
-                <div class="box" style="width: 100%; max-width: 500px; margin: auto;">
-                    <form action="/image" method="POST">
-                        <div class="field">
-                            <label class="label">Image URL</label>
-                            <div class="control">
-                                <input class="input" type="text" name="url"
-                                    placeholder="https://i.imgur.com/XnFzbyZ.png">
+                <div class="box" style="width: 100%; max-width: 650px; margin: auto;">
+                    <form action="/image" method="post" enctype="multipart/form-data">
+                        <div class="columns is-vcentered">
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label">Image URL</label>
+                                    <div class="control">
+                                        <input class="input" type="text" name="url"
+                                            placeholder="https://i.imgur.com/XnFzbyZ.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-narrow">
+                                (or)
+                            </div>
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label">Choose File</label>
+                                    <div class="control">
+                                        <input class="input" type="file" name="file">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -43,10 +58,12 @@
                             </div>
                         </div>
 
-
-                        <div class="field">
+                        <div class="field is-grouped">
                             <div class="control">
                                 <button class="button is-link">Go!</button>
+                            </div>
+                            <div class="control">
+                                <button type="reset" class="button">Reset</button>
                             </div>
                         </div>
 
