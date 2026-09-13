@@ -1,0 +1,21 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v11
+      - uses: DeterminateSystems/magic-nix-cache-action@v6
+
+      - run: nix build .#image
+
+      - name: Roll out to kube-manifests
+        env:
+          GH_TOKEN: ${{ secrets.KUBE_MANIFESTS_TOKEN }}
+        run: gh api repos/oliver-ni/kube-manifests/dispatches -f event_type=update-input -f 'client_payload[input]=afd-icon'
