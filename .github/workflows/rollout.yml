@@ -11,4 +11,4 @@ jobs:
     steps:
       - env:
           GH_TOKEN: ${{ secrets.KUBE_MANIFESTS_TOKEN }}
-        run: gh api repos/oliver-ni/kube-manifests/dispatches -f event_type=update-input -f 'client_payload[input]=afd-icon'
+        run: gh api repos/oliver-ni/kube-manifests/dispatches -f event_type=update-apps
