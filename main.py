@@ -7,9 +7,9 @@ import httpx
 from PIL import Image, ImageDraw, UnidentifiedImageError
 from starlette.applications import Starlette
 from starlette.responses import PlainTextResponse, StreamingResponse
+from starlette.routing import Route
 from starlette.templating import Jinja2Templates
 
-app = Starlette()
 templates = Jinja2Templates(directory=".")
 overlays = [None] + [Image.open(f"overlays/overlay{x}.png") for x in range(1, 10)]
 
@@ -72,7 +72,6 @@ async def get_im_from_url(url):
             raise ImageFetchError(msg)
 
 
-@app.route("/image", methods=["POST"])
 async def image(request):
     form = await request.form()
 
@@ -109,6 +108,8 @@ async def image(request):
     )
 
 
-@app.route("/", methods=["GET"])
 async def index(request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
+
+
+app = Starlette(routes=[Route("/", index), Route("/image", image, methods=["POST"])])
